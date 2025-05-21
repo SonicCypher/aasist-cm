@@ -271,7 +271,7 @@ def get_loader(
                               is_train=False,
                               is_eval=True)
     eval_set = Dataset_ASVspoof2019_devNeval(list_IDs=file_eval,
-                                             base_dir=eval_database_path)
+                                             base_dir=dev_database_path)
     eval_loader = DataLoader(eval_set,
                              batch_size=config["batch_size"],
                              shuffle=False,
@@ -307,6 +307,7 @@ def produce_evaluation_file(
             spk_id, utt_id, key, type = trl.strip().split(' ')
             # _, utt_id, _, src, key = trl.strip().split(' ')
             assert fn == utt_id
+            # fh.write("{} {} {} {}\n".format(utt_id, src, key, sco))
             fh.write("{} {} {} {} {}\n".format(spk_id, utt_id, key, type, sco))
     print("Scores saved to {}".format(save_path))
 

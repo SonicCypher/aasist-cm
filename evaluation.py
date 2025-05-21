@@ -39,9 +39,9 @@ def calculate_tDCF_EER(cm_scores_file,
     # Load CM scores
     cm_data = np.genfromtxt(cm_scores_file, dtype=str)
     # cm_utt_id = cm_data[:, 0]
-    cm_sources = cm_data[:, 1]
+    # cm_sources = cm_data[:, 1]
     cm_keys = cm_data[:, 2]
-    cm_scores = cm_data[:, 3].astype(np.float64)
+    cm_scores = cm_data[:, 4].astype(np.float64)
 
     # Extract target, nontarget, and spoof scores from the ASV scores
     tar_asv = asv_scores[asv_keys == 'target']
@@ -57,35 +57,35 @@ def calculate_tDCF_EER(cm_scores_file,
     eer_asv, asv_threshold = compute_eer(tar_asv, non_asv)
     eer_cm = compute_eer(bona_cm, spoof_cm)[0]
 
-    attack_types = [f'A{_id:02d}' for _id in range(7, 20)]
-    if printout:
-        spoof_cm_breakdown = {
-            attack_type: cm_scores[cm_sources == attack_type]
-            for attack_type in attack_types
-        }
+    # attack_types = [f'A{_id:02d}' for _id in range(7, 20)]
+    # if printout:
+    #     spoof_cm_breakdown = {
+    #         attack_type: cm_scores[cm_sources == attack_type]
+    #         for attack_type in attack_types
+    #     }
 
-        eer_cm_breakdown = {
-            attack_type: compute_eer(bona_cm,
-                                     spoof_cm_breakdown[attack_type])[0]
-            for attack_type in attack_types
-        }
+    #     eer_cm_breakdown = {
+    #         attack_type: compute_eer(bona_cm,
+    #                                  spoof_cm_breakdown[attack_type])[0]
+    #         for attack_type in attack_types
+    #     }
 
-    [Pfa_asv, Pmiss_asv,
-     Pmiss_spoof_asv] = obtain_asv_error_rates(tar_asv, non_asv, spoof_asv,
-                                               asv_threshold)
+    # [Pfa_asv, Pmiss_asv,
+    #  Pmiss_spoof_asv] = obtain_asv_error_rates(tar_asv, non_asv, spoof_asv,
+    #                                            asv_threshold)
 
-    # Compute t-DCF
-    tDCF_curve, CM_thresholds = compute_tDCF(bona_cm,
-                                             spoof_cm,
-                                             Pfa_asv,
-                                             Pmiss_asv,
-                                             Pmiss_spoof_asv,
-                                             cost_model,
-                                             print_cost=False)
+    # # Compute t-DCF
+    # tDCF_curve, CM_thresholds = compute_tDCF(bona_cm,
+    #                                          spoof_cm,
+    #                                          Pfa_asv,
+    #                                          Pmiss_asv,
+    #                                          Pmiss_spoof_asv,
+    #                                          cost_model,
+    #                                          print_cost=False)
 
-    # Minimum t-DCF
-    min_tDCF_index = np.argmin(tDCF_curve)
-    min_tDCF = tDCF_curve[min_tDCF_index]
+    # # Minimum t-DCF
+    # min_tDCF_index = np.argmin(tDCF_curve)
+    # min_tDCF = tDCF_curve[min_tDCF_index]
 
     if printout:
         with open(output_file, "w") as f_res:
@@ -94,18 +94,18 @@ def calculate_tDCF_EER(cm_scores_file,
                         '(Equal error rate for countermeasure)\n'.format(
                             eer_cm * 100))
 
-            f_res.write('\nTANDEM\n')
-            f_res.write('\tmin-tDCF\t\t= {:8.9f}\n'.format(min_tDCF))
+            # f_res.write('\nTANDEM\n')
+            # f_res.write('\tmin-tDCF\t\t= {:8.9f}\n'.format(min_tDCF))
 
-            f_res.write('\nBREAKDOWN CM SYSTEM\n')
-            for attack_type in attack_types:
-                _eer = eer_cm_breakdown[attack_type] * 100
-                f_res.write(
-                    f'\tEER {attack_type}\t\t= {_eer:8.9f} % (Equal error rate for {attack_type}\n'
-                )
+            # f_res.write('\nBREAKDOWN CM SYSTEM\n')
+            # for attack_type in attack_types:
+            #     _eer = eer_cm_breakdown[attack_type] * 100
+            #     f_res.write(
+            #         f'\tEER {attack_type}\t\t= {_eer:8.9f} % (Equal error rate for {attack_type}\n'
+            #     )
         os.system(f"cat {output_file}")
 
-    return eer_cm * 100, min_tDCF
+    return eer_cm * 100
 
 
 def obtain_asv_error_rates(tar_asv, non_asv, spoof_asv, asv_threshold):
