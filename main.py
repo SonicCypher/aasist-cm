@@ -58,7 +58,7 @@ def main(args: argparse.Namespace) -> None:
     dev_trial_path = (database_path /
                       "ASVspoof2019_{}_cm_protocols/{}.cm.dev.trl.txt".format(
                           track, prefix_2019))
-    eval_trial_path = "/home/cse/SonicCypher/aasist-cm/data_files/cm/ASVspoof2019.LA.asv.dev.gi.trl.updated.txt"
+    eval_trial_path = "/home/cse/SonicCypher/aasist-cm/data_files/cm/ASVspoof2019.LA.asv.eval.gi.trl.updated.txt"
 
     # define model related paths
     model_tag = "{}_{}_ep{}_bs{}".format(
@@ -234,7 +234,7 @@ def get_loader(
     dev_trial_path = (database_path /
                       "ASVspoof2019_{}_cm_protocols/{}.cm.dev.trl.txt".format(
                           track, prefix_2019))
-    eval_trial_path = "/home/cse/SonicCypher/aasist-cm/data_files/cm/ASVspoof2019.LA.asv.dev.gi.trl.updated.txt"
+    eval_trial_path = "/home/cse/SonicCypher/aasist-cm/data_files/cm/ASVspoof2019.LA.asv.eval.gi.trl.updated.txt"
 
     d_label_trn, file_train = genSpoof_list(dir_meta=trn_list_path,
                                             is_train=True,
@@ -271,7 +271,7 @@ def get_loader(
                               is_train=False,
                               is_eval=True)
     eval_set = Dataset_ASVspoof2019_devNeval(list_IDs=file_eval,
-                                             base_dir=dev_database_path)
+                                             base_dir=eval_database_path)
     eval_loader = DataLoader(eval_set,
                              batch_size=config["batch_size"],
                              shuffle=False,
