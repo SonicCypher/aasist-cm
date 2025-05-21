@@ -99,10 +99,10 @@ def main(args: argparse.Namespace) -> None:
                            asv_score_file=database_path /config["asv_score_path"],
                            output_file=model_tag / "t-DCF_EER.txt")
         print("DONE.")
-        eval_eer, eval_tdcf = calculate_tDCF_EER(
-            cm_scores_file=eval_score_path,
-            asv_score_file=database_path / config["asv_score_path"],
-            output_file=model_tag/"loaded_model_t-DCF_EER.txt")
+        # eval_eer, eval_tdcf = calculate_tDCF_EER(
+        #     cm_scores_file=eval_score_path,
+        #     asv_score_file=database_path / config["asv_score_path"],
+        #     output_file=model_tag/"loaded_model_t-DCF_EER.txt")
         sys.exit(0)
 
     # get optimizer and scheduler
