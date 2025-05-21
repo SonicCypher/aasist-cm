@@ -304,9 +304,10 @@ def produce_evaluation_file(
     assert len(trial_lines) == len(fname_list) == len(score_list)
     with open(save_path, "w") as fh:
         for fn, sco, trl in zip(fname_list, score_list, trial_lines):
-            _, utt_id, _, src, key = trl.strip().split(' ')
+            spk_id, utt_id, key, type = trl.strip().split(' ')
+            # _, utt_id, _, src, key = trl.strip().split(' ')
             assert fn == utt_id
-            fh.write("{} {} {} {}\n".format(utt_id, src, key, sco))
+            fh.write("{} {} {} {} {}\n".format(spk_id, utt_id, key, type, sco))
     print("Scores saved to {}".format(save_path))
 
 

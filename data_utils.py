@@ -30,7 +30,8 @@ def genSpoof_list(dir_meta, is_train=False, is_eval=False):
         return file_list
     else:
         for line in l_meta:
-            _, key, _, _, label = line.strip().split(" ")
+            spk_id, key, label, type = line.strip().split(" ")
+            # _, key, _, _, label = line.strip().split(" ")
             file_list.append(key)
             d_meta[key] = 1 if label == "bonafide" else 0
         return d_meta, file_list
